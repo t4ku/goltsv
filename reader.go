@@ -34,16 +34,13 @@ func (r *LTSVReader) error(err error) error {
 // Read reads one record from r. The record is a map of string with
 // each key and value representing one field.
 func (r *LTSVReader) Read() (record map[string]string, err error) {
-	var line []byte
 	record = make(map[string]string)
 
 	for {
-		line, _, err = r.reader.ReadLine()
+		sline,err := r.reader.ReadString('\n')
 		if err != nil {
 			return nil, err
 		}
-
-		sline := strings.TrimSpace(string(line))
 		if sline == "" {
 			// Skip empty line
 			continue
